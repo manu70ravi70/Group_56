@@ -1,0 +1,56 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master  # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - master  # Trigger on pull requests targeting the main branch
+
+jobs:
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Check out the repository code
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Set up the Python environment
+        with:
+          python-version: '3.9'  # Use Python 3.9
+      - name: Install Flake8
+        run: pip install flake8  # Install the flake8 linter
+      - name: Run Flake8
+        run: flake8 src/ --max-line-length=88  # Lint code in the src/ directory with line length set to 88
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Check out the repository code
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Set up the Python environment
+        with:
+          python-version: '3.9'  # Use Python 3.9
+      - name: Install Dependencies
+        run: pip install scikit-learn joblib pytest flake8  # Install project dependencies
+      - name: Run Pytest
+        run: pytest tests/  # Run tests in the tests/ directory
+
+  deploy:
+    name: Deploy Model
+    needs: test  # Ensure tests pass before running this job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Check out the repository code
+      - name: Simulate Deployment
+        run: |
+          echo "Starting deployment process..."
+          # Add your actual deployment commands here
+          # Example: Upload to AWS S3
+          # pip install awscli
+          # aws s3 cp rf_model.joblib s3://your-bucket-name/path/to/rf_model.joblib
+          echo "Deployment process completed!"
