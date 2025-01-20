@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 import joblib
 
 def save_model(model, file_path):
@@ -20,4 +14,3 @@ def load_model(file_path):
     except FileNotFoundError:
         print(f"Error: File {file_path} not found.")
         return None
-
