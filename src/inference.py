@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 import numpy as np
 from utils import load_model
 
@@ -23,4 +17,3 @@ if __name__ == "__main__":
     prediction = make_prediction(input_data)
     print(f"Input: {input_data}")
     print(f"Prediction: {prediction}")
-
