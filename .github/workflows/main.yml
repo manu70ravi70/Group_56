@@ -53,8 +53,12 @@ jobs:
       - name: Simulate Deployment
         run: |
           echo "Starting deployment process..."
-          # Add your actual deployment commands here
-          # Example: Upload to AWS S3
-          # pip install awscli
-          # aws s3 cp rf_model.joblib s3://your-bucket-name/path/to/rf_model.joblib
+          pip install google-cloud-storage
+          python -c "
+          from google.cloud import storage;
+          client = storage.Client();
+          bucket = client.bucket('Group-56');
+          blob = bucket.blob('rf_model.joblib');
+          blob.upload_from_filename('rf_model.joblib');
+          "
           echo "Deployment process completed!"
