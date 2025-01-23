@@ -50,15 +50,12 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3  # Check out the repository code
-      - name: Simulate Deployment
+      - name: Deploy model to AWS S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          echo "Starting deployment process..."
-          pip install google-cloud-storage
-          python -c "
-          from google.cloud import storage;
-          client = storage.Client();
-          bucket = client.bucket('Group-56');
-          blob = bucket.blob('rf_model.joblib');
-          blob.upload_from_filename('rf_model.joblib');
-          "
-          echo "Deployment process completed!"
+          # Install AWS CLI
+          pip install awscli
+          # Upload the model to S3
+          aws s3 cp rf_model.joblib s3://group56/
